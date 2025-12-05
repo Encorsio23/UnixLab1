@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# Запоминаем текущую директорию
 MAIN_DIR="$PWD"
 
 cleanup() {
@@ -58,7 +57,6 @@ else
     exit 6
 fi
 
-# Возвращаемся в исходную директорию и копируем файл
 cd "$MAIN_DIR"
 cp "$tmpdir/$output_name" ./
 
