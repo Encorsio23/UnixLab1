@@ -15,10 +15,8 @@
 volatile sig_atomic_t wasSigHup = 0;
 int client_socket = -1;
 
-void sigHupHandler(int r){
-  if(r == SIGHUP){
+void sigHupHandler(int sig) {
     wasSigHup = 1;
-  }
 }
 
 int main(){
