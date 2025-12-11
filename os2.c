@@ -31,11 +31,26 @@ int main(){
   socklen_t client_len = sizeof(struct sockaddr_in);
 
   serv_socket = socket(AF_INET, SOCK_STREAM, 0);
+  if (serv_socket == -1) {
+    perror("socket");
+    exit(1);
+  }
+
   server_addr.sin_family = AF_INET;
   server_addr.sin_addr.s_addr = INADDR_ANY;
   server_addr.sin_port = htons(PORT);
 
-  bind(serv_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
+  if (bind(serv_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1) {
+    perror("bind");
+    close(serv_socket);
+    exit(1);
+  }
+
+  if (listen(serv_socket, SOMAXCONN) == -1) {
+    perror("listen");
+    close(serv_socket);
+    exit(1);
+  }
 
   printf("Сервер запущен и слушает порт %d\n", PORT);
 
@@ -76,12 +91,16 @@ int main(){
     if(FD_ISSET(serv_socket, &fds)){
       int new_client_socket = accept(serv_socket, NULL, &client_len);
       printf("Принято новое соединение.\n");
-      if(client_socket == -1){
-        client_socket = new_client_socket;
-      }
-      else{
-        close(new_client_socket);
-        printf("Закрыто лишнее соединение.\n");
+      if(new_client_socket == -1){
+        perror("accept");
+      } else {
+        if(client_socket == -1){
+          client_socket = new_client_socket;
+        }
+        else{
+          close(new_client_socket);
+          printf("Закрыто лишнее соединение.\n");
+        }
       }
     }
 
