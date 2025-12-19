@@ -1,11 +1,10 @@
 #include <linux/module.h>
-#include <linux/kernel.h>
 #include <linux/printk.h>
 #include <linux/init.h>
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Parfenov Ivan");
-MODULE_DESCRIPTION("Simple Kernel module");
+MODULE_AUTHOR("Govorov Aleksandr");
+MODULE_DESCRIPTION("Falling of the phone from astankinski tower");
 MODULE_VERSION("1.0");
 
 int __init my_module_init(void){
